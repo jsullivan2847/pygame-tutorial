@@ -38,7 +38,7 @@ while True:
             exit()
         
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
+            if event.key == pygame.K_SPACE and isGrounded:
                 player_gravity = -20
 
         if event.type == pygame.KEYUP:
@@ -65,8 +65,13 @@ while True:
     if(snail_rect.right <= 0): snail_rect.left = 800
     screen.blit(snail_surf, snail_rect)
 
-    # player_gravity += 1
+    player_gravity += 1
     player_rect.y += player_gravity
+    if player_rect.bottom >= 300:
+        player_rect.bottom = 300
+    if player_rect.bottom < 300:
+        isGrounded = False
+    else: isGrounded = True
     screen.blit(player_surf, player_rect)
 
     #keyboardinput
