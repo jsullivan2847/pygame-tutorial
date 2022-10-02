@@ -1,21 +1,26 @@
 import pygame
 from sys import exit
 
+#just changing file for github push
 
+def display_score():
+    current_time = pygame.time.get_ticks()
+    print(current_time)
 #renders game window
 pygame.init()
 screen = pygame.display.set_mode((800,400))
 pygame.display.set_caption('Runner')
 clock = pygame.time.Clock()
 test_font = pygame.font.Font('font/Pixeltype.ttf', 50)
+game_active = True
 
 #ground and sky
 sky_surface = pygame.image.load('graphics/Sky.png').convert()
 ground_surface = pygame.image.load('graphics/ground.png').convert()
 
 #score
-score_surf = test_font.render('My Game', False, (64,64,64))
-score_rect = score_surf.get_rect(center = (400,50))
+# score_surf = test_font.render('My Game', False, (64,64,64))
+# score_rect = score_surf.get_rect(center = (400,50))
 
 #snail
 snail_surf = pygame.image.load('graphics/snail/snail1.png').convert_alpha()
@@ -33,20 +38,22 @@ while True:
     #allows to quit
     for event in pygame.event.get():
         #allows user to quit
+        
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
-        
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE and isGrounded:
-                player_gravity = -20
+        if game_active:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE and isGrounded:
+                    player_gravity = -20
 
-        if event.type == pygame.KEYUP:
-            print('keyup')
-
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if player_rect.collidepoint(event.pos):
-                player_gravity = -20
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if player_rect.collidepoint(event.pos):
+                    player_gravity = -20
+        else: 
+             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE and isGrounded:
+                    game_active = True
 
         #checks for mouse collision with player object
         # if event.type == pygame.MOUSEMOTION:
@@ -55,25 +62,36 @@ while True:
     #keeps it at 60 frames per second
     clock.tick(60)
     #renders images in game window
-    screen.blit(sky_surface,(0,0))
-    screen.blit(ground_surface,(0,300)) 
-    screen.blit(score_surf,score_rect) 
- 
 
-    #snail movement
-    snail_rect.x -= 4
-    if(snail_rect.right <= 0): snail_rect.left = 800
-    screen.blit(snail_surf, snail_rect)
+    if game_active:
 
-    player_gravity += 1
-    player_rect.y += player_gravity
-    if player_rect.bottom >= 300:
-        player_rect.bottom = 300
-    if player_rect.bottom < 300:
-        isGrounded = False
-    else: isGrounded = True
-    screen.blit(player_surf, player_rect)
+        screen.blit(sky_surface,(0,0))
+        screen.blit(ground_surface,(0,300)) 
+        # screen.blit(score_surf,score_rect) 
+    
 
+        #snail movement
+        snail_rect.x -= 4
+        if(snail_rect.right <= 0): snail_rect.left = 800
+        screen.blit(snail_surf, snail_rect)
+
+        #player
+        player_gravity += 1
+        player_rect.y += player_gravity
+        if player_rect.bottom >= 300:
+            player_rect.bottom = 300
+        if player_rect.bottom < 300:
+            isGrounded = False
+        else: isGrounded = True
+        screen.blit(player_surf, player_rect)
+
+        #collision 
+        if snail_rect.colliderect(player_rect):
+            game_active = False
+
+    else: 
+        snail_rect.left = 800
+        screen.fill('yellow')
     #keyboardinput
     # keys = pygame.key.get_pressed()
     # if keys[pygame.K_SPACE]:
