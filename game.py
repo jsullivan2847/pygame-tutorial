@@ -2,6 +2,7 @@ import pygame
 from sys import exit
 
 #just changing file for github push
+#once again...
 
 def display_score():
     current_time = pygame.time.get_ticks()
