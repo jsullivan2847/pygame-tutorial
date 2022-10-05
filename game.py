@@ -13,8 +13,8 @@ def display_score():
     return current_time
 
 def display_game_over():
-
-
+    snail_rect.left = 800
+    screen.fill((94,129,162))
     restart_text = test_font.render('Press the space bar to restart', False, (64,64,64))
     restart_rect = restart_text.get_rect(center = (400,360))
 
@@ -48,10 +48,12 @@ ground_surface = pygame.image.load('graphics/ground.png').convert()
 snail_surf = pygame.image.load('graphics/snail/snail1.png').convert_alpha()
 snail_rect = snail_surf.get_rect(bottomright=(600, 300))
 
+fly_surf = pygame.image.load('graphics/Fly/Fly1.png').convert_alpha()
+fly_rect = fly_surf.get_rect(bottomright=(600,200))
+
 
 # player
-player_surf = pygame.image.load(
-    'graphics/player/player_walk_1.png').convert_alpha()
+player_surf = pygame.image.load('graphics/player/player_walk_1.png').convert_alpha()
 player_rect = player_surf.get_rect(midbottom=(80, 300))
 gravity = 0
 player_gravity = 0
@@ -60,6 +62,10 @@ player_gravity = 0
 player_stand = pygame.image.load('graphics/player/player_stand.png').convert_alpha()
 player_stand = pygame.transform.scale(player_stand, (200, 200))
 player_stand_rect = player_stand.get_rect(center=(400,200))
+
+#Timer
+obstacle_timer = pygame.USEREVENT + 1
+pygame.time.set_timer(obstacle_timer,900)
 
 # starts a function sort of like update() in unity
 while True: 
@@ -117,7 +123,5 @@ while True:
             game_active = False
 
     else:
-        snail_rect.left = 800
-        screen.fill((94,129,162))
         display_game_over(); 
 
