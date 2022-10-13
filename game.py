@@ -3,7 +3,7 @@ from sys import exit
 
 # just changing file for github push
 # once again...
-
+# and again....
 
 def display_score():
     current_time = int(pygame.time.get_ticks() / 1000) - start_time
