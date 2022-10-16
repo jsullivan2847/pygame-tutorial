@@ -89,6 +89,8 @@ while True:
                     game_active = True
                     snail_rect.left = 800
                     start_time = int(pygame.time.get_ticks() / 1000)
+        if event.type == obstacle_timer and game_active:
+            print('test')
 
     pygame.display.update()
     # keeps it at 60 frames per second
